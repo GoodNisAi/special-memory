@@ -1,86 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SL News</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
-    header { background: #222; color: #fff; padding: 1rem; text-align: center; }
-    nav a { color: white; margin: 0 10px; text-decoration: none; }
-    .hero { padding: 50px; text-align: center; background: #ddd; }
-    .container { padding: 20px; }
-    .card { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    footer { text-align: center; padding: 1rem; background: #222; color: white; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SL News</title>
+<style>
+body { font-family: Arial; margin:0; background:#f4f4f4; }
+header { background:#111; color:#fff; padding:1rem; text-align:center; }
+nav a { color:white; margin:0 10px; cursor:pointer; }
+.section { display:none; padding:20px; }
+.active { display:block; }
+.card { background:white; padding:15px; margin:10px 0; border-radius:10px; }
+button { padding:8px 12px; cursor:pointer; }
+input { padding:8px; margin:5px; }
+</style>
 </head>
 <body>
 
 <header>
-  <h1>My News</h1>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#blog">Blog</a>
-  </nav>
+<h1>SL News</h1>
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('blog')">Blog</a>
+<a onclick="showPage('admin')">Admin</a>
+</nav>
 </header>
 
-<section class="hero">
-  <h2>Welcome to My News Site</h2>
-  <p>Latest updates, stories, and breaking news.</p>
-</section>
-
-<div class="container">
-  <h2>Top Stories</h2>
-  <div class="card">
-    <h3>Breaking News Title</h3>
-    <p>Short description of the news article...</p>
-  </div>
-  <div class="card">
-    <h3>Another Headline</h3>
-    <p>Short description of another article...</p>
-  </div>
+<!-- HOME -->
+<div id="home" class="section active">
+<h2>Top Stories</h2>
+<div class="card">
+<h3>Breaking News</h3>
+<p>This is your top story.</p>
+</div>
 </div>
 
-<footer>
-  <p>© 2026 My News</p>
-</footer>
-
-</body>
-</html>
-
-<!-- BLOG PAGE -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog - My News</title>
-</head>
-<body>
-
-<header>
-  <h1>My News Blog</h1>
-  <nav>
-    <a href="index.html">Home</a>
-  </nav>
-</header>
-
-<div class="container">
-  <h2>Latest Articles</h2>
-  <div class="card">
-    <h3>Article Title</h3>
-    <p>Full blog post preview goes here...</p>
-  </div>
-  <div class="card">
-    <h3>Another Article</h3>
-    <p>Another blog post preview...</p>
-  </div>
+<!-- BLOG -->
+<div id="blog" class="section">
+<h2>Articles</h2>
+<div id="posts"></div>
 </div>
 
-<footer>
-  <p>© 2026 My News</p>
-</footer>
+<!-- ADMIN LOGIN -->
+<div id="admin" class="section">
+<h2>Admin Login</h2>
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+
+<div id="adminPanel" style="display:none;">
+<h3>Create Post</h3>
+<input id="title" placeholder="Title"><br>
+<input id="content" placeholder="Content"><br>
+<button onclick="addPost()">Post</button>
+</div>
+</div>
+
+<script>
+function showPage(page){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(page).classList.add('active');
+}
+
+// FAKE LOGIN
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "1234";
+
+function login(){
+let u = document.getElementById('user').value;
+let p = document.getElementById('pass').value;
+
+if(u===ADMIN_USER && p===ADMIN_PASS){
+alert("Logged in!");
+document.getElementById('adminPanel').style.display = 'block';
+}else{
+alert("Wrong login");
+}
+}
+
+// POSTS
+let posts = [];
+
+function addPost(){
+let title = document.getElementById('title').value;
+let content = document.getElementById('content').value;
+
+let post = `<div class='card'><h3>${title}</h3><p>${content}</p></div>`;
+posts.push(post);
+renderPosts();
+}
+
+function renderPosts(){
+document.getElementById('posts').innerHTML = posts.join('');
+}
+</script>
 
 </body>
 </html>
